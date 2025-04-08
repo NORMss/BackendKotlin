@@ -55,13 +55,17 @@ class NoteControllers(
         @RequestParam(required = true) ownerId: String,
     ): List<NoteResponse> {
         return repository.findByOwnerId(ObjectId(ownerId)).map {
-//            NoteResponse(
-//                id = it.id,
-//                title = it.title,
-//                content = it.content,
-//                color = it.color,
-//                createdAt = it.createdAt
-//            )
+            it.toResponse()
         }
+    }
+
+    private fun Note.toResponse(): NoteResponse {
+        return NoteResponse(
+            id = id.toHexString(),
+            title = title,
+            content = content,
+            color = color,
+            createdAt = createdAt
+        )
     }
 }

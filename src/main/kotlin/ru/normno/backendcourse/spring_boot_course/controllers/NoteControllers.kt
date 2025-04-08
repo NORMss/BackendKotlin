@@ -16,7 +16,6 @@ class NoteControllers(
         val title: String,
         val content: String,
         val color: Long,
-        val ownerId: String,
     )
 
     data class NoteResponse(
@@ -29,7 +28,9 @@ class NoteControllers(
         )
 
     @PostMapping
-    fun save(body: NoteRequest): NoteResponse {
+    fun save(
+        @RequestBody body: NoteRequest
+    ): NoteResponse {
         val note = repository.save(
             Note(
                 id = body.id?.let { ObjectId(it) } ?: ObjectId.get(),
@@ -37,7 +38,7 @@ class NoteControllers(
                 content = body.content,
                 color = body.color,
                 createdAt = Instant.now(),
-                ownerId = ObjectId(body.ownerId),
+                ownerId = ObjectId(),
             )
         )
 
@@ -67,5 +68,12 @@ class NoteControllers(
             color = color,
             createdAt = createdAt
         )
+    }
+
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteById(
+        @PathVariable id: String,
+    ) {
+        repository.deleteById(ObjectId(id))
     }
 }

@@ -39,7 +39,7 @@ class AuthController(
         )
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     fun login(
         @Valid @RequestBody authRequest: AuthRequest,
     ): AuthService.TokenPair {
@@ -49,7 +49,7 @@ class AuthController(
         )
     }
 
-    @PostMapping("/register")
+    @PostMapping("/refresh")
     fun refresh(
         @Valid @RequestBody refreshRequest: RefreshRequest,
     ) {
